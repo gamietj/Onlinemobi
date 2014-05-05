@@ -1,38 +1,98 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.abdul.onlinemobi.domain;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import java.util.List;
+import javax.persistence.*;
 
 /**
  *
- * @author abdul
+ * @author Abdul
  */
 @Entity
 public class Customer implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String name;
+    @Embedded
+    private Name name;
+    @Embedded
+    private Contact contact;
+    @Embedded
+    private Demographic demographic;
+    private String customerNumber;
+    @OneToOne
+    private CustomerAddress customerAddress;
+    /*@OneToMany
+    @JoinColumn(name = "customerId")
+    private List<Order> orders;*/
+    @OneToMany
+    @JoinColumn(name = "customerId")
+    private List<CreditCard> creditCards;
 
-    public String getName() {
+    public Contact getContact() {
+        return contact;
+    }
+
+    public void setContact(Contact contact) {
+        this.contact = contact;
+    }
+
+    public List<CreditCard> getCreditCards() {
+        return creditCards;
+    }
+
+    public void setCreditCards(List<CreditCard> creditCards) {
+        this.creditCards = creditCards;
+    }
+
+    public CustomerAddress getCustomerAddress() {
+        return customerAddress;
+    }
+
+    public void setCustomerAddress(CustomerAddress customerAddress) {
+        this.customerAddress = customerAddress;
+    }
+
+    public String getCustomerNumber() {
+        return customerNumber;
+    }
+
+    public void setCustomerNumber(String customerNumber) {
+        this.customerNumber = customerNumber;
+    }
+
+    public Demographic getDemographic() {
+        return demographic;
+    }
+
+    public void setDemographic(Demographic demographic) {
+        this.demographic = demographic;
+    }
+
+    public Name getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(Name name) {
         this.name = name;
     }
-    
 
+    /*public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }*/
+
+    
+    
     public Long getId() {
         return id;
     }
@@ -50,7 +110,7 @@ public class Customer implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
+        
         if (!(object instanceof Customer)) {
             return false;
         }
@@ -65,5 +125,4 @@ public class Customer implements Serializable {
     public String toString() {
         return "com.abdul.onlinemobi.domain.Customer[ id=" + id + " ]";
     }
-    
 }
